@@ -1,0 +1,33 @@
+<form method="POST" action="">
+        Create Employee Role
+    <br>
+        <select name="person">
+        {% for p in person %}
+            <OPTION value={{p[0]}}>{{p[0]}}</OPTION>
+        {% endfor %}
+        </select>
+  <br>
+  Salary:  <td><input type="number" name="salary" id = "first" oninput="calculate();" /></td>
+  <br>
+    # of payments:  <td><input type="number" name="num" id = "second" oninput="calculate();" /></td>
+  <br>
+    Accumulated Earning:
+    <td><input id="result" name = "accumulated" /></td>
+
+  <br>
+    <button name = "submit_button" type = "submit"value = "Back">Back</button>
+    &emsp;<button name = "submit_button" type = "submit"value = "Create">Create</button>
+
+</form>
+
+<script>
+
+    function calculate() {
+    var myBox1 = document.getElementById('first').value;
+    var myBox2 = document.getElementById('second').value;
+    var result = document.getElementById('result');
+    var myResult = myBox1 * myBox2;
+          document.getElementById('result').value = myResult;
+
+}
+</script>

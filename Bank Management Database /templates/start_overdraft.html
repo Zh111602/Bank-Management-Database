@@ -1,0 +1,23 @@
+<form method="POST" action="">
+    Start Overdraft
+    <br>
+
+  <br>
+      Available Checking Bank Account:<select name="checking">
+        {% for a in ck %}
+            <OPTION value={{a[1]}}:{{a[0]}}>Bank:{{a[0]}} || Account:{{a[1]}} </OPTION>
+        {% endfor %}
+        </select>
+<br>
+
+  <br>
+      Available Savings Bank Account:<select name="saving">
+        {% for a in sav %}
+            <OPTION value={{a[1]}}:{{a[0]}}>Bank:{{a[0]}} || Account:{{a[1]}} </OPTION>
+        {% endfor %}
+        </select>
+
+  <br>
+    <button name = "submit_button" type = "submit"value = "Back">Back</button>
+    <button name = "submit_button" type = "submit"value = "Confirm">Confirm</button>
+</form>

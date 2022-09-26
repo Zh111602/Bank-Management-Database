@@ -1,0 +1,23 @@
+<form method="POST" action="">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;   &emsp;&emsp;&emsp;&emsp;&emsp;<b>Make Transfer</b>
+    <br>
+<br>
+        From Bank:<select name="bank">
+        {% for a in bk %}
+            <OPTION value={{a[0]}}>{{a[0]}} </OPTION>
+        {% endfor %}
+        </select>
+<br>
+  <br>
+        To Bank:<select name="bank2">
+        {% for a in bk %}
+            <OPTION value={{a[0]}}>{{a[0]}} </OPTION>
+        {% endfor %}
+        </select>
+  <br>
+    <button name = "submit_button" type = "submit"value = "Cancel">Cancel</button>
+    &emsp;&emsp;
+    <button name = "submit_button" type = "submit"value = "Next">Next</button>
+    &emsp;&emsp;
+
+</form>

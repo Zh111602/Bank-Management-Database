@@ -1,0 +1,248 @@
+SCREEN 3 CREATE EMPLOYEE:
+
+## to get names in dropdown that are a valid employee
+
+SELECT perID from person natural join bank_user where perID not in 
+(SELECT perID from employee) and perID not in (SELECT perID from system_admin); 
+
+## to get all input for procedure start_employee_role
+
+SELECT * from person join (SELECT bank_user.perID, bank_user.taxID, bank_user.firstName, bank_user.lastName, bank_user.birthdate, bank_user.street,
+bank_user.city, bank_user.state, bank_user.zip, bank_user.dtJoined, employee.salary, employee.payments, employee.earned 
+from employee join bank_user on bank_user.perID = employee.perID) as temp1 on person.perID = temp1.perID where person.perID = 'arwhite6';
+
+## instead of select * you can do SELECT temp1.salary, temp1.payments, temp1.earnings if you just need those 3 things (only those 3 are on the screen)
+## or if you only need salary, payments, and earned you can just do: SELECT salary, payments, earned from employee where perID = input_perID;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCREEN 4 CREATE CUSTOMER ROLE:
+
+## to get names in dropdown that are a valid customer
+
+SELECT perID from person natural join bank_user where perID not in 
+(SELECT perID from customer) and perID not in (SELECT perID from system_admin);
+
+## to get all input for procedure start_customer_role
+
+SELECT person.perID, taxID, firstName, lastName, birthdate, street, city, state, zip, dtJoined, pwd from bank_user join 
+person on bank_user.perID = person.perID where person.perID = input_perID;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCREEN 5 Stop Employee / Customer Role (Manage Users):
+
+STOP EMPLOYEE:
+
+## to get employee ID's in dropdown
+
+SELECT perID from employee; 
+
+From Zhen: select perID from employee where perID not in(select manager from bank) and perID not in (SELECT distinct perID from workfor group by bankID having count(perID) = 1);
+
+
+STOP CUSTOMER:
+
+## to get customer ID's in dropdown
+
+SELECT perID from customer;
+From Zhen: select perID from customer where perID not in (SELECT distinct perID from access join (SELECT access.bankID, access.accountID from access group by accountID, bankID having count(distinct perID) = 1) as temp on access.accountID = temp.accountID);
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCREEN 6 Hire Worker:
+
+## to select bank from dropdown
+
+SELECT bankID from bank;
+
+## to select employee from dropdown
+
+SELECT perID from employee where perID not in (SELECT manager from bank);
+
+## to to get all input for procedure hire_worker
+
+SELECT perID, bankID, salary from workFor join employee on workFor.perID = employee.perID where perID = input_perID;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 7 Replace Manager:
+
+## to select bank from dropdown
+
+SELECT bankID from bank;
+
+## to select employee from dropdown
+
+SELECT perID from employee where perID not in (SELECT perID workFor) and perID not in (SELECT manager from bank); 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRREEN 8 Add / Remove account access (Manage Accounts):
+
+## FOR ADMIN SCREEN
+  ## For bank drop down
+     SELECT bankID from bank;
+  ## For account drop down
+     SELECT accountID from bank_account;
+  ## For account type
+    SELECT "checking", "savings", "market";
+  
+  
+     if accountID in (SELECT accountID from checking) then account_type = checking; ??
+     if accountID in (SELECT accountID from savings) then account_type = savings; ??
+     if accountID in (SELECT accountID from market) then account_type = market; ??
+     
+
+## FOR CUSTOMER SCREEN
+
+    ## For account drop down
+    SELECT accountID from access where perID = input_requester; 
+    
+    ## For customer drop down (want to show customers that don't already have access to the account)
+    SELECT perID from customer where perID not in (SELECT perID from access where accountID = selected_input_accountID); 
+
+## For boxes that are on this screen to be filled
+
+SELECT temp3.bankID, temp3.accountID, temp3.interest_rate, temp3.minBalance, temp4.maxWithdrawals from 
+(SELECT temp.bankID, temp.accountID, temp.interest_rate, temp2.minBalance from (SELECT bank_account.bankID, bank_account.accountID, interest_rate from 
+bank_account join interest_bearing on bank_account.bankID = interest_bearing.bankID and bank_account.accountID = interest_bearing.accountID) as temp 
+left outer join
+(SELECT * from savings) as temp2 on temp.bankID = temp2.bankID and temp.accountID = temp2.accountID) as temp3 
+left outer join (SELECT * from market) as temp4
+on temp3.bankID = temp4.bankID and temp3.accountID = temp4.accountID where temp3.bankID = input_bankID and temp3.accountID = input_accountID;
+
+
+## NEW TRY: IT HAS SOME REPEATS IDK HOW TO GET RID OF and we need to ADD WHERE clause at the end 
+
+SELECT DISTINCT E.bankID, E.accountID, E.balance, E.dtShareStart, E.interest_rate, E.dtDeposit, E.numWithdrawals, E.maxWithdrawals, F.minBalance from
+(SELECT C.bankID, C.accountID, C.balance, C.dtShareStart, C.interest_rate, C.dtDeposit, D.numWithdrawals, D.maxWithdrawals from
+(SELECT distinct OG.bankID, OG.accountID, OG.balance, OG.dtShareStart, i.interest_rate, i.dtDeposit from (SELECT b.bankID, b.accountID, b.balance, A.dtShareStart from
+(select distinct bankID, accountID, dtShareStart from access) as A right outer join bank_account as b
+on A.bankID = b.bankID and A.accountID = b.accountID) as OG left outer join
+(SELECT bankID, accountID, interest_rate, dtDeposit from interest_bearing) as i on
+OG.bankID = i.bankID and OG.accountID = i.accountID) as C left outer join
+(SELECT bankID, accountID, numWithdrawals, maxWithdrawals from market) as D
+on C.bankID = D.bankID and C.accountID = D.accountID) as E left outer join
+(SELECT bankID, accountID, minBalance from savings) as F on
+E.bankID = F.bankID and E.accountID = F.accountId;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCREEN 9 Create fee:
+
+## to select bank from dropdown
+
+SELECT bankID from bank;
+
+## to select account from dropdown
+
+SELECT accountID from bank_account; 
+
+## to get all input for create_fee procedure
+
+SELECT bankID, accountID, fee FROM interest_bearing_fees;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 10 Start / Stop overdraft Queries:
+
+## Available checking accounts drop down
+
+SELECT A.bankID, A.accountID from (SELECT a.perID, c.bankID, c.accountID from checking as c join access as a on c.bankID = a.bankID and c.accountID=a.accountID) as A join
+(SELECT a.perID, s.bankID, s.accountID from savings as s join access as a on s.bankID = a.bankID and s.accountID=a.accountID) as B
+on A.perID = B.perID where A.perID = 'owalter6';
+
+## Available savings accounts drop down
+
+SELECT B.bankID, B.accountID from (SELECT a.perID, c.bankID, c.accountID from checking as c join access as a on c.bankID = a.bankID and c.accountID=a.accountID) as A join
+(SELECT a.perID, s.bankID, s.accountID from savings as s join access as a on s.bankID = a.bankID and s.accountID=a.accountID) as B
+on A.perID = B.perID where A.perID = 'owalter6';
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 11 Make deposit / withdrawal:
+
+##Deposit Screen
+  ##Bank Dropdown
+    SELECT BankID from bank;
+  ##Account Dropdown
+    SELECT accountID from bank where bankID = input_bankID; 
+    
+##Withdrawal Screen
+  ##Bank Dropdown
+    SELECT BankID from bank;
+  ##Account Dropdown
+    SELECT accountID from bank where bankID = input_bankID; 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 12 Make account transfer:
+
+##FROM
+    ##Bank dropdown
+      SELECT bankID from access where perID = input_customerID; 
+    ##Account dropdown
+      SELECT accountID from access where perID = input_customerID and bankID = input_bankID
+      
+##TO
+    ##Bank dropdown
+      SELECT bankID from access where perID = input_customerID; 
+    ##Account dropdown
+      SELECT accountID from access where perID = input_customerID and bankID = input_bankID
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 14 Display account stats:
+
+SELECT * from display_account_stats;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 15 Display bank stats:
+
+SELECT * from display_bank_stats;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 16 Display corporation stats:
+
+SELECT * from display_corporation_stats;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 17 Display customer stats:
+
+SELECT * from display_customer_stats;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Screen 18 Display employee stats:
+
+SELECT * from display_employee_stats;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+SCREEN 19 Login:
+
+
+8
+SELECT employee.perID, bankID, salary FROM employee join workfor on employee.perID = workfor.perID;
+
+9
+SELECT access.perID, access.bankID, access.accountID, bank_account.balance, interest_bearing.interest_rate, interest_bearing.dtDeposit, savings.minBalance, market.numWithdrawals, market.maxWithdrawals, access.dtShareStart FROM access left join bank_account 
+on access.bankID = bank_account.bankID and access.accountID = bank_account.accountID left join checking on access.accountID = checking.accountID and access.bankID = checking.bankID left join interest_bearing on access.accountID = interest_bearing.accountID and access.bankID = interest_bearing.bankID 
+left join market on access.accountID = market.accountID and access.bankID = market.bankID left join savings on access.accountID = savings.accountID and access.bankID = savings.bankID
+where access.perID = input_perID;
+
+10
+SELECT perID, bankID, accountID from access;
+
+
+13
+select access.perID, checking.bankID, checking.accountID from checking left join access on checking.bankID = access.bankID and checking.accountID = access.accountID;
+
+

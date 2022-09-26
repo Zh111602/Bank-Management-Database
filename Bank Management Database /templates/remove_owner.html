@@ -1,0 +1,16 @@
+<form method="POST" action="">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;   &emsp;&emsp;&emsp;&emsp;&emsp;<b>Remove Owner</b>
+    <br>
+<br>
+        Select Account:<select name="acc">
+        {% for a in acc %}
+            <OPTION value={{a[0]}}:{{a[1]}}>Bank:{{a[0]}} || Account:{{a[1]}}</OPTION>
+        {% endfor %}
+        </select>
+<br>
+  <br>
+    <button name = "submit_button" type = "submit"value = "Cancel">Cancel</button>&emsp;&emsp;
+    <button name = "submit_button" type = "submit"value = "Next">Next</button>
+    &emsp;&emsp;
+
+</form>

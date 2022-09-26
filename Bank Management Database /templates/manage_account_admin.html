@@ -1,0 +1,47 @@
+<form method="POST" action="">
+    <b>Manage Account Access</b>
+
+    <br>
+    <b><pre>Create New Account(Admin only)</pre></b>
+ <br>
+        Owner:<select name="owner">
+        {% for b in owner %}
+            <OPTION value={{b[0]}}>{{b[0]}}</OPTION>
+        {% endfor %}
+        </select>
+  <br>
+    <br>
+        Bank:<select name="bank">
+        {% for b in bk %}
+            <OPTION value={{b[0]}}>{{b[0]}}</OPTION>
+        {% endfor %}
+        </select>
+  <br>
+
+        Account ID:<select name="accountID">
+        {% for a in acc2 %}
+            <OPTION value={{a[0]}}>{{a[0]}}</OPTION>
+        {% endfor %}
+        </select>
+  <br>
+
+        </select>Account Type:<select name="accountType">
+        {% for a in accOpt %}
+            <OPTION value={{a}}>{{a}}</OPTION>
+        {% endfor %}
+        </select>
+    <br>
+
+  <br>
+  <br>
+        &emsp;&emsp;&emsp;&emsp;$Initial Balance: <input type="number" name="initialBalance"/>&emsp;
+        Interest Rate: <input type="number" name="interestRate"/>
+  <br>
+        &emsp;&emsp;&emsp;&emsp;$Min Balance: <input type="number" name="minBalance"/>&emsp;&ensp;
+        Max Withdrawals: <input type="number" name="maxWithdrawals"/>
+  <br>
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <button name = "submit_button" type = "submit"value = "Back">Back</button>
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <button name = "submit_button" type = "submit"value = "Create">Confirm</button>
+</form>

@@ -1,0 +1,18 @@
+<form method="POST" action="">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;   &emsp;&emsp;&emsp;&emsp;&emsp;<b>Make Withdrawal</b>
+    <br>
+<br>
+        Select Bank:<select name="bank">
+        {% for a in bk %}
+            <OPTION value={{a[0]}}>{{a[0]}} </OPTION>
+        {% endfor %}
+        </select>
+
+  <br>
+  <br>
+    <button name = "submit_button" type = "submit"value = "Cancel">Cancel</button>
+    &emsp;&emsp;
+    <button name = "submit_button" type = "submit"value = "Next">Next</button>
+    &emsp;&emsp;
+
+</form>

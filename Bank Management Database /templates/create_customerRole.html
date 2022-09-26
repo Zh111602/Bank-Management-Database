@@ -1,0 +1,13 @@
+<form method="POST" action="">
+        Create Customer Role
+    <br>
+   <select name="perID">
+        {% for p in per %}
+            <OPTION value={{p[0]}}>{{p[0]}}</OPTION>
+        {% endfor %}
+        </select>
+  <br>
+    <button name = "submit_button" type = "submit"value = "Back">Back</button>
+    &emsp;<button name = "submit_button" type = "submit"value = "Create">Confirm</button>
+
+</form>

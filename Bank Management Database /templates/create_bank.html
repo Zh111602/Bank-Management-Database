@@ -1,0 +1,37 @@
+<form method="POST" action="">
+        Create Bank
+    <br>
+  Bank ID: <input type="text" name="bankID" />
+  <br>
+   Name:  <input type="text" name="name" />
+  <br><br>
+    Address Info
+    <br>
+    Street:  <input type="text" name="street" /> City: <input type="text" name="city" />
+    <br>
+    State Abbr.  <input type="text" name="state" /> ZipCode: <input type="text" name="zip" />
+  <br><br>
+    Operation Info
+    <br>
+        Reserved Assets: <input type="number" name="resAssets" />
+        <select name="corp_ID">
+        {% for corpID in corpID %}
+            <OPTION value={{corpID[0]}}>{{corpID[0]}}</OPTION>
+        {% endfor %}
+        </select>
+    <br>
+        <select name="manager">
+        {% for m in managerList %}
+            <OPTION value={{m[0]}}>{{m[0]}}</OPTION>
+        {% endfor %}
+        </select>
+        <select name="employee">
+        {% for e in employeeList %}
+            <OPTION value={{e[0]}}>{{e[0]}}</OPTION>
+        {% endfor %}
+        </select>
+  <br><br>
+        <button name = "submit_button" type = "submit"value = "Back">Back</button>
+    <button name = "submit_button" type = "submit"value = "Create">Create</button>
+
+</form>

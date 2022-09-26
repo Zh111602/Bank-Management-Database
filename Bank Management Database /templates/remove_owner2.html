@@ -1,0 +1,16 @@
+<form method="POST" action="">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;   &emsp;&emsp;&emsp;&emsp;&emsp;<b>Remove Owner</b>
+    <br>
+<br>
+        Select Customer to Remove:<select name="per">
+        {% for a in per %}
+            <OPTION value={{a[0]}}>{{a[0]}} </OPTION>
+        {% endfor %}
+        </select>
+<br>
+  <br>
+    <button name = "submit_button" type = "submit"value = "Back">Back</button>&emsp;&emsp;
+    <button name = "submit_button" type = "submit"value = "Confirm">Confirm</button>
+    &emsp;&emsp;
+
+</form>

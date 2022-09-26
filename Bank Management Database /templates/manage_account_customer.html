@@ -1,0 +1,34 @@
+<form method="POST" action="">
+    <b>Manage Account Access</b>
+
+    <br>
+    <b><pre>Existing Accounts: Add/Remove Owners        </pre></b>
+    <br>
+        Accessible Accounts:<select name="access">
+        {% for a in acc %}
+            <OPTION value={{a[0]}}>{{a[0]}} </OPTION>
+        {% endfor %}
+        </select>
+  <br>
+        Customer:<select name="customer">
+        {% for a in cus %}
+            <OPTION value={{a[0]}}>{{a[0]}}</OPTION>
+        {% endfor %}
+        </select>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+  <br>
+        <input type="checkbox" id="check" name="check" value="check">
+        <label for="check"> Adding Owner?</label>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&ensp;
+
+    <br>
+    <input type="checkbox" id="checkR" name="checkR" value="checkR">
+        <label for="checkR"> Remove Owner?</label>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&ensp;
+  <br>
+
+    <button name = "submit_button" type = "submit"value = "Back">Back</button>
+    <button name = "submit_button" type = "submit"value = "Create">Confirm</button>
+</form>
