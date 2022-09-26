@@ -9,8 +9,12 @@ Run pip install flask_mysqldb on terminal
 Use any python IDE to run the code.
 
 
-• Designed and developed a relational database for an online banking management system in SQL and MySQL. 
+This is a web application with a database running in MySQL. The websites allows the user to log in as manager, customer, or admin. 
 
-• Implemented SQL queries using Python with Flask on the backend to modify the database.
+Logging in as different roles lead to different screens. 
 
-• Implemented the banking application functionalities with HTML, CSS on the frontend.
+Admin can manage customer account's, view the bank stats and more.
+
+Customer can perform transactions like cash deposit, cash transfer and view their personal bank stats.
+
+Manager can add people as admin, manage admin's pay and more.
