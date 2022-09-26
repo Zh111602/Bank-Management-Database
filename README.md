@@ -2,9 +2,9 @@
 
 install python from https://www.python.org/downloads/ 
 
-pip install Flask 
+Run pip install Flask on terminal
 
-pip install flask_mysqldb 
+Run pip install flask_mysqldb on terminal
 
 Use any python IDE to run the code.
 
