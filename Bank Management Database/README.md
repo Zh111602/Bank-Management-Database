@@ -1,4 +1,4 @@
-# CS4400_Phase4
+# Bank Management Database
 
 install python from https://www.python.org/downloads/ 
 
